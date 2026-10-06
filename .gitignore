@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local runtime state. The pilot writes its credential, consent and session
+# material under these paths; they are host state, never source.
+private/
+runtime/
+*.db
+*.sqlite
+token-expiry.log
+
+# Retired/superseded code kept only for reconciliation history. The live
+# service does not import any of it (see src/provider_base.py), and shipping
+# it would invite someone to wire dead code back in.
+archive/
+
+# Android on-device capturer sources and the lab-feeder module. Both are real
+# work, but they are Android projects that need their own Gradle module and
+# signing; they are tracked separately so this repository stays a Python
+# service. Uncomment when they are ready to stand alone.
+# android/
+# lab-feeder/
+
+# Signing material — must never be committed.
+*.jks
+*.keystore
+*.p12
+*.pem
+google-services.json
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+*.iml
+.vscode/

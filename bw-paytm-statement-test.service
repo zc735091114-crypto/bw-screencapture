@@ -1,0 +1,36 @@
+[Unit]
+Description=BW Paytm statement pilot (isolated, consent-gated) :18450
+After=network-online.target
+Wants=network-online.target
+# Standalone: does not depend on or stop any existing bw-* service.
+
+[Service]
+Type=simple
+User=ec2-user
+WorkingDirectory=/home/ec2-user/bw-paytm-statement
+Environment=PYTHONUNBUFFERED=1
+Environment=BW_PAYTM_STATEMENT_DIR=/home/ec2-user/bw-paytm-statement
+Environment=BW_PAYTM_PROBE_RESULT=/home/ec2-user/bw-paytm-statement/private/PROBE-RESULT.json
+Environment=BW_PILOT_APP_DIR=/home/ec2-user/bw-paytm-pilot
+Environment=BW_BIND_HOST=127.0.0.1
+Environment=BW_BIND_PORT=18450
+# Kill-switch. This unit ships DISABLED; flipping it is an explicit operator act.
+Environment=BW_PAYTM_STATEMENT_ENABLED=false
+# Playwright runtime (copied in Phase 0.2, never written to by this unit).
+Environment=PLAYWRIGHT_BROWSERS_PATH=/home/ec2-user/bw-amazon-feasibility/browsers
+Environment=LD_LIBRARY_PATH=/home/ec2-user/bw-amazon-feasibility/runtime-libs/usr/lib64
+ExecStart=/home/ec2-user/bw-amazon-feasibility/venv/bin/python -m uvicorn \
+    --factory app:create_app --host 127.0.0.1 --port 18450 --log-level info
+Restart=on-failure
+RestartSec=5
+# Browser isolation + no privilege escalation.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=read-only
+ReadWritePaths=/home/ec2-user/bw-paytm-statement
+ReadWritePaths=/home/ec2-user/bw-amazon-feasibility/browsers
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target

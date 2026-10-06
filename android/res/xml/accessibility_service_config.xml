@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Capture service capabilities.
+
+  This is the whole permission surface, stated in one file and reviewable on
+  its own. It asks for exactly one capability: reading window content, and only
+  the three event types needed to notice a UPI screen change.
+
+  canPerformGestures and canRequestFilterKeyEvents are explicitly false. The
+  service has no tap, swipe, or key-injection ability at all, so it cannot
+  operate the wallet app even if the code were changed to try.
+-->
+<accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
+    android:accessibilityEventTypes="typeWindowStateChanged|typeWindowContentChanged|typeViewScrolled"
+    android:accessibilityFeedbackType="feedbackGeneric"
+    android:notificationTimeout="0"
+    android:accessibilityFlags="flagReportViewIds"
+    android:canRetrieveWindowContent="true"
+    android:canPerformGestures="false"
+    android:canRequestFilterKeyEvents="false"
+    android:description="@string/accessibility_service_description"
+    android:summary="@string/accessibility_service_summary"
+    android:settingsActivity="com.bharatwallet.paytmstmt.MainActivity" />

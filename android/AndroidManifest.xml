@@ -1,0 +1,30 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.bharatwallet.paytmstmt" android:versionCode="4" android:versionName="0.4-vecb">
+    <uses-sdk android:minSdkVersion="26" android:targetSdkVersion="34" />
+
+    <!--
+      Package visibility. From Android 11 an app targeting a recent SDK sees
+      almost nothing else on the device unless it declares it here. Without this
+      block the wallet apps are invisible: getPackageInfo reports them as not
+      installed and the tester is told Paytm is missing from a phone that has
+      it. Every package the capture allowlist names must be declared below.
+    -->
+    <queries>
+        <package android:name="net.one97.paytm"/>
+        <package android:name="com.phonepe.app"/>
+        <package android:name="com.mobiwik.android"/>
+        <package android:name="money.super.payments"/>
+
+        <!-- Needed to open a wallet's own launcher screen. -->
+        <intent>
+            <action android:name="android.intent.action.MAIN"/>
+            <category android:name="android.intent.category.LAUNCHER"/>
+        </intent>
+    </queries>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION"/>
+
+    <application android:label="BW Statement Check" android:debuggable="true" android:allowBackup="false" android:theme="@android:style/Theme.Material.Light.NoActionBar">
+        <activity android:name=".MainActivity" android:exported="true" android:windowSoftInputMode="adjustResize">
+            <intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter>
+        </activity>
+    </application>
+</manifest>

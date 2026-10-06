@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Shown as the accessibility service's name in Settings. Short on purpose:
+         this is the name the tester has to recognise in a long list. -->
+    <string name="app_name">BW Checkup</string>
+    <string name="accessibility_service_summary">Finds your own UPI IDs in the wallet app. Read only.</string>
+    <string name="accessibility_service_description">When you open the UPI section of Paytm, PhonePe, MobiKwik or Supermoney, this reads the text of that screen to work out which UPI IDs are yours. It cannot tap, type, swipe or pay, it never looks at any other app, and it refuses to read a payment screen at all.</string>
+</resources>
