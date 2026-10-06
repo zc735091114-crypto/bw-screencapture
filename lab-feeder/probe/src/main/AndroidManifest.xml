@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+      Package visibility (Android 11+).
+
+      Without this block the feeder is invisible: getPackageInfo reports
+      com.bharatwallet.lab.feeder as not installed and the bind is refused with
+      NOT_INSTALLED, even on a device where the feeder is present. This is the
+      same trap documented in the on-device capturer's manifest.
+    -->
+    <queries>
+        <package android:name="com.bharatwallet.lab.feeder" />
+    </queries>
+
+    <!--
+      The client side of the signature-level permission. Both APKs are signed
+      with the same local debug key, so the OS grants the bind. A build signed
+      with any other key is refused here, which is the intended enforcement.
+    -->
+    <uses-permission android:name="com.bharatwallet.lab.BIND_FEEDER" />
+
+    <application
+        android:label="BW Lab Probe"
+        android:debuggable="true"
+        android:theme="@android:style/Theme.Material.Light.NoActionBar">
+
+        <activity
+            android:name=".ProbeActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

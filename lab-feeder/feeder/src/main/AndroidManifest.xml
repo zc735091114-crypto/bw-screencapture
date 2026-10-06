@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  bw-lab-feeder manifest.
+
+  Identity is entirely ours, and that is deliberate:
+    package   com.bharatwallet.lab.feeder
+    action    com.bharatwallet.lab.BIND_SERVICE
+    permission com.bharatwallet.lab.BIND_FEEDER (signature-level)
+
+  The AIDL shape mirrors the TopPay / LongFaFaPay Binder contracts so a client
+  written against either behaves identically here, but nothing in this manifest
+  references com.coin.ipc.*, com.longfafa.pay.* or com.phonepe.app. The feeder
+  is never to be mistaken for, or installed as, a provider app.
+
+  Access control: the service is exported (a cross-package bind requires it) but
+  guarded by a signature-level permission, so only an APK signed with our own
+  certificate can bind. That is the same trust posture as the reference
+  clients, which verify the host's signing digest before trusting a reply.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-sdk
+        android:minSdkVersion="26"
+        android:targetSdkVersion="34" />
+
+    <!--
+      Signature-level permission. protectionLevel="signature" means the OS
+      itself enforces that only our own key may bind; the client additionally
+      verifies the digest as defence in depth.
+    -->
+    <permission
+        android:name="com.bharatwallet.lab.BIND_FEEDER"
+        android:label="BW Lab Feeder"
+        android:protectionLevel="signature" />
+
+    <!--
+      NOTE: the host deliberately does NOT <uses-permission> its own bind
+      permission. The declaring app is automatically granted it; a client is
+      what must request it. See probe/src/main/AndroidManifest.xml.
+    -->
+
+    <application
+        android:label="BW Lab Feeder"
+        android:debuggable="true"
+        android:allowBackup="false"
+        android:theme="@android:style/Theme.Material.Light.NoActionBar">
+
+        <service
+            android:name=".LabService"
+            android:exported="true"
+            android:permission="com.bharatwallet.lab.BIND_FEEDER">
+            <intent-filter>
+                <action android:name="com.bharatwallet.lab.BIND_SERVICE" />
+            </intent-filter>
+        </service>
+    </application>
+</manifest>

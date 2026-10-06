@@ -1,0 +1,28 @@
+// Shared AIDL contract + client.
+//
+// Both the feeder app and the probe app depend on this module. AIDL generates a
+// Stub and a Proxy from the same descriptor string in each APK, which is
+// precisely how the reference Binder clients work across package boundaries:
+// the descriptor is the contract, not the class identity.
+
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    namespace 'com.bharatwallet.lab'
+    compileSdk 34
+
+    defaultConfig {
+        minSdk 26
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    buildFeatures {
+        aidl true
+    }
+}

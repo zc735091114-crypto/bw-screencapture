@@ -1,0 +1,49 @@
+// The feeder host app. Debug-signed only; see settings.gradle for why this
+// must never receive a production signing key.
+
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.bharatwallet.lab.feeder'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'com.bharatwallet.lab.feeder'
+        minSdk 26
+        targetSdk 34
+        versionCode 1
+        versionName '1.0-lab'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    buildFeatures {
+        aidl true
+    }
+
+    buildTypes {
+        debug {
+            // The client verifies the feeder's signing digest against its own.
+            // Both APKs are therefore signed with the same local debug key so
+            // the bind succeeds. That is intentional and is also the signal
+            // that this build is not a release artifact.
+            minifyEnabled false
+        }
+        release {
+            // Intentionally not release-ready. Publishing a fixture under a
+            // production key would defeat the provenance guarantees it exists
+            // to demonstrate.
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+        }
+    }
+}
+
+dependencies {
+    implementation project(':common')
+}

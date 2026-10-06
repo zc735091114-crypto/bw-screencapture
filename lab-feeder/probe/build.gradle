@@ -1,0 +1,39 @@
+// Client-side probe app. Debug-signed with the same key as the feeder so the
+// signature-level bind permission is satisfied.
+
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.bharatwallet.lab.probe'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'com.bharatwallet.lab.probe'
+        minSdk 26
+        targetSdk 34
+        versionCode 1
+        versionName '1.0-lab'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    buildFeatures {
+        aidl true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+        }
+    }
+}
+
+dependencies {
+    implementation project(':common')
+}

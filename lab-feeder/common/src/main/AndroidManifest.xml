@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Library manifest: no application element. The namespace is declared in
+     build.gradle, and both apps supply their own label. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" />

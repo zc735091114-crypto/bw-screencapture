@@ -1,0 +1,39 @@
+// bw-lab-feeder — three modules from one source tree:
+//
+//   :common  AIDL contract (com.bharatwallet.lab.ILabService) + LabBinderClient
+//   :feeder  com.bharatwallet.lab.feeder — the Binder host (LabService)
+//   :probe   com.bharatwallet.lab.probe  — a minimal client driver
+//
+// Both APKs are signed with the same local debug certificate so the feeder's
+// signature-level permission (com.bharatwallet.lab.BIND_FEEDER) admits the
+// probe. That is a DEVELOPMENT signing identity only. Nothing here is a release
+// configuration, and the feeder must never be published with a production key:
+// it is a test fixture.
+
+pluginManagement {
+    repositories {
+        google {
+            content {
+                includeGroupByRegex 'com\\.android.*'
+                includeGroupByRegex 'com\\.google.*'
+                includeGroupByRegex 'androidx.*'
+            }
+        }
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = 'bw-lab-feeder'
+
+include ':common'
+include ':feeder'
+include ':probe'
